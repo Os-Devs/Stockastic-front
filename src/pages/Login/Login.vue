@@ -2,9 +2,6 @@
 import { defineComponent } from 'vue';
 import useLogin from './useLogin'
 
-
-const { Entrar } = useLogin();
-
 export default defineComponent({
     name: "Login",
     setup() {
