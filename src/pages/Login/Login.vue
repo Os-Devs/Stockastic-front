@@ -1,14 +1,21 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import useCadastro from './useLogin'
+import useLogin from './useLogin'
 
 
-const { Entrar } = useCadastro();
+const { Entrar } = useLogin();
 
 export default defineComponent({
     name: "Login",
-    methods: {
-        Entrar, 
+    setup() {
+    const { nomeUsuarioLogin, senha, useError, Entrar } = useLogin();
+
+    return {
+      nomeUsuarioLogin,
+      senha,
+      useError,
+      Entrar,
+    };
   },
 })
 </script>
@@ -40,34 +47,38 @@ export default defineComponent({
                         <div class="sm:col-span-3">
                             <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Tipo de usuário:</label>
                             <div class="mt-2">
-                            <select id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                <option>Empresa</option>
-                                <option>Funcionário</option>
-                            </select>
+                                <select id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                    <option>Empresa</option>
+                                    <option>Funcionário</option>
+                                </select>
                             </div>
                         </div>
                         
                         <div>
-                        <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Nome de Usuário:</label>
-                        <div class="mt-2">
-                            <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                        </div>
+                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Nome de Usuário:</label>
+                            <div class="mt-2">
+                                <input id="email" name="email" type="text" v-model="nomeUsuarioLogin" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            </div>
                         </div>
             
                         <div>
                         <div class="flex items-center justify-between">
                             <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Senha</label>
                             <div class="text-sm">
-                            <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Esqueceu a senha?</a>
+                                <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Esqueceu a senha?</a>
                             </div>
                         </div>
-                        <div class="mt-2">
-                            <input id="password" name="password" type="password" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            <div class="mt-2">
+                                <input id="password" name="password" type="password" v-model="senha" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            </div>
                         </div>
+
+                        <div v-if="useError">
+                            <p class="text-red-900 text-[13px] font-semibold mt-1 text-center">Usuário ou senha não conferem, verifique os dados.</p>
                         </div>
-            
+        
                         <div>
-                        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Entrar</button>
+                            <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Entrar</button>
                         </div>
                     </form>
             

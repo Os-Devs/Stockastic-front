@@ -3,14 +3,20 @@ import { defineComponent } from 'vue';
 import useCadastro from './useCadastro'
 
 
-const { Salvar } = useCadastro();
-
 export default defineComponent({
-    name: "Cadastro",
-    methods: {
-        Salvar, 
+  name: 'Cadastro',
+  setup() {
+    const { nomeUsuarioLogin, nomeUsuario, email, senha, Salvar } = useCadastro();
+
+    return {
+      nomeUsuarioLogin,
+      nomeUsuario,
+      email,
+      senha,
+      Salvar,
+    };
   },
-})
+});
 </script>
 
 <template>
@@ -33,30 +39,36 @@ export default defineComponent({
                     <div class="sm:col-span-3">
                         <label for="tipo" class="block text-sm font-medium leading-6 text-gray-900">Tipo de usuário:</label>
                         <div class="mt-2">
-                            <select id="tipo" name="country" autocomplete="tipo-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <select id="tipo" name="tipo" autocomplete="tipo-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                 <option>Empresa</option>
                                 <option>Funcionário</option>
                             </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="userName" class="block text-sm font-medium leading-6 text-gray-900">Nome:</label>
+                        <div class="mt-2">
+                            <input id="userName" name="userName" type="text" v-model="nomeUsuario" autocomplete="userName" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
                     
                     <div>
                         <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email:</label>
                         <div class="mt-2">
-                            <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            <input id="email" name="email" type="email" v-model="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
                     <div>
                         <label for="user" class="block text-sm font-medium leading-6 text-gray-900">Nome de Usuário:</label>
                         <div class="mt-2">
-                            <input id="user" name="user" type="user" autocomplete="user" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            <input id="user" name="user" type="text" autocomplete="user" v-model="nomeUsuarioLogin" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
         
                     <div>
                         <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Senha:</label>
                         <div class="mt-2">
-                            <input id="password" name="password" type="password" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            <input id="password" name="password" type="password" v-model="senha" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
                     <div>
@@ -65,7 +77,7 @@ export default defineComponent({
                             <input id="password" name="password" type="password" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
-        
+
                     <div>
                         <button @click.prevent="Salvar" class="flex w-full mb-10 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Salvar</button>
                     </div>
