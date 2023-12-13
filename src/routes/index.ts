@@ -3,6 +3,7 @@ import Login from '../pages/Login/Login.vue';
 // import Cadastro from '../pages/Cadastro/Cadastro.vue'
 import Home from '../pages/Home/Home.vue'
 import { Cadastro } from "../pages";
+import { CadastroProduto } from "../pages";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -19,6 +20,12 @@ const routes: Array<RouteRecordRaw> = [
         path: '/home',
         name: 'home',
         component: Home,
+        props: true,
+    },
+    {
+        path: '/produto',
+        name: 'produto',
+        component: CadastroProduto,
         props: true,
     },
 ]

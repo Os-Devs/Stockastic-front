@@ -3,18 +3,17 @@ import { defineComponent } from 'vue';
 import useLogin from './useLogin'
 
 export default defineComponent({
-    name: "Login",
-    setup() {
-    const { nomeUsuarioLogin, senha, useError, Entrar } = useLogin();
+  name: 'Login',
+  setup() {
+    const { user, useError, Entrar } = useLogin();
 
     return {
-      nomeUsuarioLogin,
-      senha,
+      user,
       useError,
       Entrar,
     };
   },
-})
+});
 </script>
 
 <template>
@@ -52,9 +51,9 @@ export default defineComponent({
                         </div>
                         
                         <div>
-                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Nome de Usuário:</label>
+                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">E-mail:</label>
                             <div class="mt-2">
-                                <input id="email" name="email" type="text" v-model="nomeUsuarioLogin" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                <input id="email" name="email" type="text" v-model="user.email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
             
@@ -66,12 +65,12 @@ export default defineComponent({
                             </div>
                         </div>
                             <div class="mt-2">
-                                <input id="password" name="password" type="password" v-model="senha" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                <input id="password" name="password" type="password" v-model="user.password" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
 
                         <div v-if="useError">
-                            <p class="text-red-900 text-[13px] font-semibold mt-1 text-center">Usuário ou senha não conferem, verifique os dados.</p>
+                            <p class="text-red-500 text-[13px] font-semibold mt-1 text-center">Usuário ou senha não conferem, verifique os dados.</p>
                         </div>
         
                         <div>

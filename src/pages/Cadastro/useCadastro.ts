@@ -1,29 +1,43 @@
 import { Ref, ref } from 'vue';
 
+interface User {
+  email: string;
+  password: string;
+  password_confirmation: string;
+  username: string;
+  name: string;
+  tipo: string;
+}
+
 interface UseCadastro {
-  nomeUsuarioLogin: Ref<string>;
-  nomeUsuario: Ref<string>;
-  email: Ref<string>;
-  senha: Ref<string>;
+  user: Ref<User>;
   Salvar: () => void;
 }
 
 function useCadastro(): UseCadastro {
-  const nomeUsuarioLogin = ref('');
-  const nomeUsuario = ref('');
-  const email = ref('');
-  const senha = ref('');
+  const user = ref<User>({
+    email: '',
+    password: '',
+    password_confirmation: '',
+    username: '',
+    name: '',
+    tipo: '',
+  });
 
   async function Salvar(this: any) {
     const requestBody = {
-      nomeUsuarioLogin: nomeUsuarioLogin.value,
-      nomeUsuario: nomeUsuario.value,
-      email: email.value,
-      senha: senha.value,
+      user: {
+        email: user.value.email,
+        password: user.value.password,
+        password_confirmation: user.value.password_confirmation,
+        username: user.value.username,
+        name: user.value.name,
+        tipo: user.value.tipo,
+      },
     };
 
     try {
-      const response = await fetch('http://localhost:3307/api/usuarios/cadastro', {
+      const response = await fetch('http://localhost:3000/signup', {
         method: 'POST',
         body: JSON.stringify(requestBody),
         headers: {
@@ -43,10 +57,7 @@ function useCadastro(): UseCadastro {
   }
 
   return {
-    nomeUsuarioLogin,
-    nomeUsuario,
-    email,
-    senha,
+    user,
     Salvar,
   };
 }

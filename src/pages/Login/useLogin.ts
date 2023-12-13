@@ -1,46 +1,65 @@
 import { Ref, ref } from 'vue';
 
+interface User {
+  email: string;
+  password: string;
+}
+
 interface UseLogin {
-  nomeUsuarioLogin: Ref<string>;
-  senha: Ref<string>;
+  user: Ref<User>;
   useError: Ref<boolean>;
   Entrar: () => void;
 }
 
 function useLogin(): UseLogin {
-  const nomeUsuarioLogin = ref('');
-  const senha = ref('');
+  const user = ref<User>({
+    email: '',
+    password: '',
+  });
   const useError = ref<boolean>(false);
 
   async function Entrar(this: any) {
-    const queryParams = new URLSearchParams();
-    queryParams.append('nomeUsuarioLogin', nomeUsuarioLogin.value);
-    queryParams.append('senha', senha.value);
+    const requestBody = {
+      user: {
+        email: user.value.email,
+        password: user.value.password,
+      }
+    };
     
-
-    const url = `http://localhost:3307/api/usuarios/login?${queryParams.toString()}`;
-
     try {
-      const response = await fetch(url, {
-        method: 'GET',
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        body: JSON.stringify(requestBody),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
       if (response.ok) {
+        const responseData = await response.json();
+
+        if (responseData.status.code === 200) {
+          localStorage.setItem('userData', JSON.stringify(responseData.status.data));
+
+          const accessToken = response.headers.get('Authorization');
+          if (accessToken) {
+            localStorage.setItem('accessToken', accessToken);
+          }
+        }
         console.log('Login bem-sucedido!');
         this.$router.push('/home');
       } else {
-        useError.value = true
+        useError.value = true;
         console.error('Erro no login');
       }
     } catch (error) {
-        useError.value = true
-        console.error('Erro na requisição:', error);
+      useError.value = true;
+      console.error('Erro na requisição:', error);
     }
   }
 
   return {
-    nomeUsuarioLogin,
-    senha,
+    user,
     useError,
     Entrar,
   };

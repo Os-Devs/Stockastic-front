@@ -1,19 +1,35 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import useCadastro from './useCadastro'
 
 
 export default defineComponent({
   name: 'Cadastro',
   setup() {
-    const { nomeUsuarioLogin, nomeUsuario, email, senha, Salvar } = useCadastro();
+    const { user, Salvar } = useCadastro();
+    const senhaErro = ref('');
+
+    const validarSenha = () => {
+        if (user.value.password.length < 6) {
+            senhaErro.value = 'A senha deve ter pelo menos 6 caracteres.';
+            return false;
+        } else {
+            senhaErro.value = '';
+            return true;
+        }
+    };
+
+    const salvarSeValido = () => {
+        if (validarSenha()) {
+            Salvar();
+        }
+    };
 
     return {
-      nomeUsuarioLogin,
-      nomeUsuario,
-      email,
-      senha,
+      user,
       Salvar,
+      senhaErro,
+      salvarSeValido
     };
   },
 });
@@ -39,47 +55,48 @@ export default defineComponent({
                     <div class="sm:col-span-3">
                         <label for="tipo" class="block text-sm font-medium leading-6 text-gray-900">Tipo de usuário:</label>
                         <div class="mt-2">
-                            <select id="tipo" name="tipo" autocomplete="tipo-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                <option>Empresa</option>
-                                <option>Funcionário</option>
+                            <select v-model="user.tipo" id="tipo" name="tipo" autocomplete="tipo-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                <option value="empresa">Empresa</option>
+                                <option value="funcionario">Funcionário</option>
                             </select>
                         </div>
                     </div>
                     <div>
                         <label for="userName" class="block text-sm font-medium leading-6 text-gray-900">Nome:</label>
                         <div class="mt-2">
-                            <input id="userName" name="userName" type="text" v-model="nomeUsuario" autocomplete="userName" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            <input id="userName" name="userName" type="text" v-model="user.name" autocomplete="userName" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
                     
                     <div>
                         <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email:</label>
                         <div class="mt-2">
-                            <input id="email" name="email" type="email" v-model="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            <input id="email" name="email" type="email" v-model="user.email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
                     <div>
                         <label for="user" class="block text-sm font-medium leading-6 text-gray-900">Nome de Usuário:</label>
                         <div class="mt-2">
-                            <input id="user" name="user" type="text" autocomplete="user" v-model="nomeUsuarioLogin" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            <input id="user" name="user" type="text" autocomplete="user" v-model="user.username" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
         
                     <div>
                         <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Senha:</label>
                         <div class="mt-2">
-                            <input id="password" name="password" type="password" v-model="senha" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            <input id="password" name="password" type="password" v-model="user.password" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
+                        <div class="text-red-500 text-sm mt-1">{{ senhaErro }}</div>
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Repetir senha:</label>
                         <div class="mt-2">
-                            <input id="password" name="password" type="password" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            <input id="password_confirmation" name="password" type="password" v-model="user.password_confirmation" autocomplete="current-password"  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
 
                     <div>
-                        <button @click.prevent="Salvar" class="flex w-full mb-10 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Salvar</button>
+                        <button @click.prevent="salvarSeValido" class="flex w-full mb-10 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Salvar</button>
                     </div>
                 </form>
             </div>
