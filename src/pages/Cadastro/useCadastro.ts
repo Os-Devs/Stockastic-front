@@ -1,4 +1,5 @@
 import { Ref, ref } from 'vue';
+import { Router } from 'vue-router';
 
 interface User {
   email: string;
@@ -11,7 +12,7 @@ interface User {
 
 interface UseCadastro {
   user: Ref<User>;
-  Salvar: () => void;
+  Salvar: (router: Router) => void;
 }
 
 function useCadastro(): UseCadastro {
@@ -24,7 +25,7 @@ function useCadastro(): UseCadastro {
     tipo: '',
   });
 
-  async function Salvar(this: any) {
+  async function Salvar(router: Router) {
     const requestBody = {
       user: {
         email: user.value.email,
@@ -47,7 +48,7 @@ function useCadastro(): UseCadastro {
 
       if (response.ok) {
         alert('Cadastro bem-sucedido!');
-        this.$router.push('/');
+        router.push('/');
       } else {
         console.error('Erro no cadastro');
       }

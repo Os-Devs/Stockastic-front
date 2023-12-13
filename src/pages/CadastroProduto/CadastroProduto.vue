@@ -1,8 +1,19 @@
 <script setup lang="ts">
+
 import { NavBarVue } from '../../components';
 import useCadastroProduto from './useCadastroProduto'
+import { useRouter } from 'vue-router';
+
+
 
 const { produto, SalvarProduto } = useCadastroProduto();
+const router = useRouter();
+
+const salvarSeValido = () => {
+    SalvarProduto(router);
+};
+
+
 
 </script>
 
@@ -61,7 +72,7 @@ const { produto, SalvarProduto } = useCadastroProduto();
                         </div>
 
                         <div>
-                            <button @click.prevent="SalvarProduto" class="flex w-full mb-10 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Salvar</button>
+                            <button @click.prevent="salvarSeValido" class="flex w-full mb-10 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Salvar</button>
                         </div>
                     </form>
                 </div>

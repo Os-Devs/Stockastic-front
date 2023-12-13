@@ -1,6 +1,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import useCadastro from './useCadastro'
+import { useRouter } from 'vue-router';
+
 
 
 export default defineComponent({
@@ -8,6 +10,7 @@ export default defineComponent({
   setup() {
     const { user, Salvar } = useCadastro();
     const senhaErro = ref('');
+    const router = useRouter();
 
     const validarSenha = () => {
         if (user.value.password.length < 6) {
@@ -21,7 +24,7 @@ export default defineComponent({
 
     const salvarSeValido = () => {
         if (validarSenha()) {
-            Salvar();
+            Salvar(router);
         }
     };
 

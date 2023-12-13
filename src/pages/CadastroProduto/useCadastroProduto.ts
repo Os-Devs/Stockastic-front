@@ -1,4 +1,5 @@
 import { Ref, ref } from 'vue';
+import { Router } from 'vue-router';
 
 interface Produto {
   nome: string;
@@ -12,7 +13,7 @@ interface Produto {
 
 interface UseCadastroProduto {
   produto: Ref<Produto>;
-  SalvarProduto: () => void;
+  SalvarProduto: (router: Router) => void;
 }
 
 function useCadastroProduto(): UseCadastroProduto {
@@ -26,7 +27,7 @@ function useCadastroProduto(): UseCadastroProduto {
     category_id: 1,
   });
 
-  async function SalvarProduto(this: any) {
+  async function SalvarProduto(router: Router) {
     const requestBody = {
       nome: produto.value.nome,
       descricao: produto.value.descricao,
@@ -51,7 +52,7 @@ function useCadastroProduto(): UseCadastroProduto {
 
       if (response.ok) {
         alert('Produto cadastrado com sucesso!');
-        this.$router.push('/home');
+        router.push('/home');
       } else {
         console.error('Erro no cadastro do produto');
       }

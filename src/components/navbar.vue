@@ -1,12 +1,16 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 
+const router = useRouter();
 const isOpen = ref(false);
 const userEmail = ref('');
 
 const logout = () => {
   localStorage.removeItem('accessToken');
+  localStorage.removeItem('userData');
+  router.push('/')
 }
 
 onMounted(() => {
@@ -26,9 +30,6 @@ onMounted(() => {
                 <div class="flex">
                     <a href="#" class="text-white font-semibold rounded-lg px-4 py-2 | hover:bg-purple-500">
                         Produtos
-                    </a>
-                    <a href="#" class="text-white font-semibold rounded-lg px-4 py-2 | hover:bg-purple-500">
-                        Dashboard
                     </a>
                 </div>
                 <div class="flex">
