@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import navbar from '../../components/navbar.vue';
-import useCadastroProduto from './useCadastroProduto'
 import { useRouter } from 'vue-router';
-import { loadCategorias } from './loadCategoria';
+import { loadCategorias } from '../CadastroProduto/loadCategoria';
+import { produto, updateProduto,  } from './useAtualizarProduto';
 import { onMounted, ref } from 'vue';
 
 interface Categoria {
@@ -13,18 +13,34 @@ interface Categoria {
   updated_at: string;
 }
 
-const { produto, SalvarProduto } = useCadastroProduto();
-
 const categorias = ref<Categoria[]>([]);
-
-onMounted(async () => {
-    categorias.value = await loadCategorias();
-});
-
 const router = useRouter();
 
+const loadProduto = async (id: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/produtos/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `${localStorage.getItem('accessToken')}`, 
+      },
+    });
+    const data = await response.json();
+    produto.value = data;
+  } catch (error) {
+    console.error('Error loading produto:', error);
+  }
+};
+
+onMounted(async () => {
+  categorias.value = await loadCategorias();
+  const produtoId = Number(router.currentRoute.value.params.id);
+  loadProduto(produtoId)  
+
+});
+
 const salvarSeValido = () => {
-    SalvarProduto(router);
+  updateProduto();
+  router.push('/home');
 };
 
 </script>

@@ -1,9 +1,10 @@
 import { RouteRecordRaw, createRouter, createWebHistory  } from "vue-router";
 import Login from '../pages/Login/Login.vue';
-// import Cadastro from '../pages/Cadastro/Cadastro.vue'
 import Home from '../pages/Home/Home.vue'
 import { Cadastro } from "../pages";
 import { CadastroProduto } from "../pages";
+import { CriarCategoria } from "../pages";
+import { AtualizarProduto } from "../pages";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -28,6 +29,18 @@ const routes: Array<RouteRecordRaw> = [
         component: CadastroProduto,
         props: true,
     },
+    {
+        path: '/categoria',
+        name: 'categoria',
+        component: CriarCategoria,
+        props: true,
+    },
+    {
+        path: '/atualizar-produto/:id',
+        name: 'atualizar-produto',
+        component: AtualizarProduto,
+        props: true,
+      },
 ]
 
 const router = createRouter({

@@ -1,3 +1,4 @@
-import NavBarVue from "./NavBar.vue"
 
-export { NavBarVue }
+import dropdownVue from "./dropdown.vue"
+
+export default { dropdownVue }
